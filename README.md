@@ -1,22 +1,28 @@
 PyGit - A Git Clone in Python
 PyGit is a custom implementation of the Git version control system, built from scratch in Python. This project is an educational tool designed to explore and understand the core mechanics of Git, including its object model, index (staging area), branching, and command-line interface.
 It demonstrates how Git's powerful features are built upon a few simple, elegant concepts.
+
 Features
 This version of PyGit implements the core "plumbing" and "porcelain" commands that cover the majority of a local, single-developer workflow.
 Repository Management:
 init: Initialize a new, empty PyGit repository.
+
 File Tracking & Staging:
 add: Add file contents to the index (staging area). Recursively adds files in directories.
+
 History & Snapshots:
 commit: Create a new commit to save the state of the staged files.
 log: View the history of commits, from newest to oldest.
+
 Branching & Navigation:
 branch: List all local branches or create a new branch.
 checkout: Switch between branches or restore the working directory to a specific commit's state.
+
 Inspection & Comparison:
 status: Show the status of the working directory and the staging area.
 diff: Show line-by-line differences between the working directory and the staging area.
 cat-file: Inspect any object (commit, tree, or blob) in the PyGit database by its hash.
+
 How Git Works (The PyGit Model)
 PyGit is built on the same fundamental principles as Git:
 The Object Database (.pygit/objects): Everything is stored as an object (a blob, tree, or commit). Each object is identified by its unique SHA-1 hash, calculated from its content. This makes the database content-addressable and immutable.
