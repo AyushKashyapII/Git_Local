@@ -55,4 +55,3 @@ This makes the database **content-addressable** and **immutable**.
 ### 📌 Index (`.pygit/index`)
 Also known as the **staging area**, the index maps file paths to blob hashes that will be included in the next commit.
 
-It acts as a buffer between:
