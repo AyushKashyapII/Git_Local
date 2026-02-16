@@ -1,118 +1,184 @@
-PyGit - A Git Clone in Python
-PyGit is a custom implementation of the Git version control system, built from scratch in Python. This project is an educational tool designed to explore and understand the core mechanics of Git, including its object model, index (staging area), branching, and command-line interface.
-It demonstrates how Git's powerful features are built upon a few simple, elegant concepts.
+🐍 PyGit — A Git Clone Built in Python
 
-Features
-This version of PyGit implements the core "plumbing" and "porcelain" commands that cover the majority of a local, single-developer workflow.
-Repository Management:
-init: Initialize a new, empty PyGit repository.
+PyGit is a custom, from-scratch implementation of the Git version control system, written entirely in Python.
+It is an educational project designed to deeply understand how Git works internally—its object model, staging area, commits, branches, and command-line interface.
 
-File Tracking & Staging:
-add: Add file contents to the index (staging area). Recursively adds files in directories.
+Rather than reusing Git libraries, PyGit rebuilds Git’s core ideas from first principles to show how powerful version control emerges from a few elegant concepts.
 
-History & Snapshots:
-commit: Create a new commit to save the state of the staged files.
-log: View the history of commits, from newest to oldest.
+✨ Features
 
-Branching & Navigation:
-branch: List all local branches or create a new branch.
-checkout: Switch between branches or restore the working directory to a specific commit's state.
+PyGit implements both plumbing (low-level) and porcelain (user-facing) commands that cover most of a local, single-developer workflow.
 
-Inspection & Comparison:
-status: Show the status of the working directory and the staging area.
-diff: Show line-by-line differences between the working directory and the staging area.
-cat-file: Inspect any object (commit, tree, or blob) in the PyGit database by its hash.
+📁 Repository Management
 
-How Git Works (The PyGit Model)
-PyGit is built on the same fundamental principles as Git:
-The Object Database (.pygit/objects): Everything is stored as an object (a blob, tree, or commit). Each object is identified by its unique SHA-1 hash, calculated from its content. This makes the database content-addressable and immutable.
-Blob: Stores the raw content of a file.
-Tree: Represents a directory. It contains a list of pointers to the blobs and other trees within it.
-Commit: A snapshot of the project at a specific point in time. It contains a pointer to the root tree, parent commit(s), and metadata like the author and commit message.
-The Index (.pygit/index): Also known as the staging area, the index is a flat list that maps file paths to the blob hashes of the content you want to include in the next commit. It acts as a staging ground between your working directory and your commit history.
-Pointers (.pygit/refs): Branches are simply pointers—small files that contain the SHA-1 hash of a specific commit. The special HEAD pointer indicates your current location in the repository, either by pointing to a branch or a specific commit (detached HEAD).
-How to Use PyGit
-All commands are run from the command line via the main script.
-1. Initialize a Repository
-Create a new directory and run the init command. This will create the hidden .pygit directory where all the repository data is stored.
-code
-Bash
+init — Initialize a new PyGit repository
+
+📦 File Tracking & Staging
+
+add — Add files or directories recursively to the staging area (index)
+
+🕰 History & Snapshots
+
+commit — Create a commit from staged files
+
+log — View commit history (newest → oldest)
+
+🌿 Branching & Navigation
+
+branch — List branches or create a new branch
+
+checkout — Switch branches or restore a specific commit
+
+🔍 Inspection & Comparison
+
+status — Show working directory and staging area status
+
+diff — Line-by-line differences between working directory and index
+
+cat-file — Inspect raw objects (commit, tree, blob) by hash
+
+🧠 How PyGit Works (Git Internals Explained)
+
+PyGit follows the same core architecture as real Git.
+
+🗄 Object Database (.pygit/objects)
+
+Everything is stored as an immutable object, addressed by a SHA-1 hash of its contents.
+
+Object Types
+
+Blob — Stores raw file contents
+
+Tree — Represents directories (maps names → blobs/trees)
+
+Commit — A snapshot of the project
+Contains:
+
+Root tree hash
+
+Parent commit(s)
+
+Author & commit message
+
+This makes the database content-addressable and immutable.
+
+📌 Index / Staging Area (.pygit/index)
+
+The index is a flat file mapping:
+
+file_path → blob_hash
+
+
+It acts as a buffer between:
+
+Working Directory → Index → Commit
+
+🌿 References (.pygit/refs)
+
+Branches are simple pointers to commit hashes
+
+HEAD points to:
+
+A branch (normal state), or
+
+A commit (detached HEAD)
+
+🚀 Getting Started
+
+All commands are run via the main script.
+
+1️⃣ Initialize a Repository
 mkdir my-project
 cd my-project
 python /path/to/main.py init
-2. The Basic Workflow
-A typical workflow involves creating files, adding them to the staging area, and committing them.
-code
-Bash
-# Create a new file
+
+
+This creates a hidden .pygit/ directory that stores all repository data.
+
+2️⃣ Basic Workflow
+# Create a file
 echo "Hello, PyGit!" > README.md
 
-# See the status (README.md will be "untracked")
+# Check status (file is untracked)
 python /path/to/main.py status
 
-# Stage the new file for the next commit
+# Stage the file
 python /path/to/main.py add README.md
 
-# See the status again (README.md will be a "new file" to be committed)
+# Check status again
 python /path/to/main.py status
 
-# Commit the staged changes with a message
-python /path/to/main.py commit -m "Initial commit"```
+# Commit the changes
+python /path/to/main.py commit -m "Initial commit"
 
-### 3. Viewing Changes
-After making edits, you can see what has changed.
-
-```bash
-# Edit an existing file
+3️⃣ Viewing Changes
+# Modify a file
 echo "An important update." >> README.md
 
-# See that the file is modified but not staged
+# File is modified but not staged
 python /path/to/main.py status
 
-# See the exact line-by-line changes
+# View line-by-line differences
 python /path/to/main.py diff
 
-# Stage the changes
+# Stage changes
 python /path/to/main.py add README.md
 
-# Commit the new version
-python /path/to/main.py commit -m "Update README"```
+# Commit update
+python /path/to/main.py commit -m "Update README"
 
-### 4. Branching and Checking Out
-Isolate work on branches and switch between them.
-
-```bash
-# See your commit history
+4️⃣ Branching & Checkout
+# View commit history
 python /path/to/main.py log
 
-# Create a new branch called "feature"
+# Create a new branch
 python /path/to/main.py branch feature
 
-# List all branches (* indicates the current branch)
+# List branches (* = current)
 python /path/to/main.py branch
 
-# Switch to the new branch
+# Switch to feature branch
 python /path/to/main.py checkout feature
 
-# Make some changes on the feature branch...
+# Make changes on feature branch
 echo "A new feature" > feature.txt
 python /path/to/main.py add feature.txt
 python /path/to/main.py commit -m "Add new feature"
 
-# Switch back to the master branch
+# Switch back to master
 python /path/to/main.py checkout master
-# The feature.txt file will disappear from your working directory!
-5. Inspecting the Database
-Use cat-file to look at any object directly.
-code
-Bash
-# Get a commit hash from the log
+# feature.txt will disappear from the working directory
+
+5️⃣ Inspecting the Object Database
+# Get commit hash
 python /path/to/main.py log
 
-# Inspect the commit object
+# Inspect a commit
 python /path/to/main.py cat-file <commit-hash>
 
-# From the commit output, get the tree hash and inspect it
+# Inspect its tree
 python /path/to/main.py cat-file <tree-hash>
-Future Work
-The next major feature to be implemented is the merge command, which will allow for combining the histories of different branches.
+
+🛠 Future Work
+
+Planned features:
+
+merge — Combine histories of different branches
+
+Conflict detection & resolution
+
+Remote repositories (push / fetch)
+
+Improved diff and log formatting
+
+🎯 Why PyGit?
+
+PyGit is ideal if you want to:
+
+Understand Git internals
+
+Learn about content-addressable storage
+
+See how version control systems are built
+
+Strengthen systems + Python skills
