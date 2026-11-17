@@ -1,7 +1,7 @@
 # 🐍 PyGit — A Git Clone in Python
 
 PyGit is a custom implementation of the Git version control system, built from scratch in Python.  
-This project is an educational tool designed to explore and understand the core mechanics of Git, including its object model, staging area (index), branching, and command-line interface.
+This project is an learning tool designed to explore and understand the core mechanics of Git, including its object model, staging area (index), branching, and command-line interface.
 
 PyGit demonstrates how Git’s powerful features are built upon a few simple and elegant concepts.
 
